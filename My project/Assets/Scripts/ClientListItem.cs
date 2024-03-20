@@ -5,25 +5,26 @@ using UnityEngine;
 
 public class ClientListItem : MonoBehaviour
 {
-    //List Items
-    public TextMeshProUGUI clientLabel;
-    public TextMeshProUGUI points;
+    [Header("List Items")]
+    [SerializeField] private TextMeshProUGUI clientLabel;
+    [SerializeField] private TextMeshProUGUI points;
 
-    //PopUp Items
-    public GameObject popupPrefab;
-    public ClientData clientData;
-    
+    [Header("PopUp Items")]
+    [SerializeField] private GameObject popupPrefab;
+    [SerializeField] private ClientData clientData;
 
-    public JSOnDataController clientManager; // Reference to ClientManager script
-    public PopUpController popUpController;
+    [Header("Script References")]
+    private JSOnDataController dataController;
+    private PopUpController popUpController;
+
     void Awake()
     {
-        clientManager = FindAnyObjectByType<JSOnDataController>(); // Find ClientManager script
+        //Not the best way to get this but works as of now
+        dataController = FindObjectOfType<JSOnDataController>();
         popUpController= FindObjectOfType<PopUpController>();
     }
 
     
-
     public void SetData(ClientData client)
     {
         this.clientData = client; // Store the data

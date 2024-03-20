@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
 public class PopUpController : MonoBehaviour
 {
     [Header("UI Elements for Popup")]
-    public TextMeshProUGUI popupNameText;
-    public TextMeshProUGUI popupPointsText;
-    public TextMeshProUGUI popupAddressText;
-    public GameObject popUpPanel;
+    [SerializeField] private TextMeshProUGUI popupNameText;
+    [SerializeField] private TextMeshProUGUI popupPointsText;
+    [SerializeField] private TextMeshProUGUI popupAddressText;
+    [SerializeField] private GameObject popUpPanel;
 
     public void SetData(ClientData clientData)
     {
@@ -26,10 +25,15 @@ public class PopUpController : MonoBehaviour
     public void EnablePopUp()
     {
         popUpPanel.SetActive(true);
+
+        // Animate scaling in
+        popUpPanel.transform.DOScale(1f, 0.3f).From(0f).SetEase(Ease.OutBack); 
+        
     }
 
     public void DisablePopUp()
     {
-        popUpPanel.SetActive(false);
+        // Animate scaling out and then deactivate
+        popUpPanel.transform.DOScale(0f, 0.3f).From(1f).SetEase(Ease.OutBack).OnComplete(() => popUpPanel.SetActive(false)); 
     }
 }
