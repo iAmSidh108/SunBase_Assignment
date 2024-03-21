@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BalloonGreen
       objectReference: {fileID: 0}
+    - target: {fileID: 6681472738162248263, guid: 656da61222ed31d449ebf1516ee8c3c0, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
