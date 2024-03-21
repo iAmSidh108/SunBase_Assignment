@@ -1,13 +1,22 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject[] spritePrefabs; // Assign your sprite prefab here in the inspector
-    public float numSpawns = 15;
-    public float minScale = 5f; // Minimum scale for the sprites
-    public float maxScale = 6f; // Maximum scale for the sprites
+    [Header("Data for Balloons")]
+    [SerializeField] GameObject[] spritePrefabs; 
+    [SerializeField] float numSpawns = 15;
+    [SerializeField] Transform parent;
+    [SerializeField] Button restartButton;
+
+    [Header("Internal References")]
     private Camera mainCamera;
-    public Transform parent;
+
+    private void Awake()
+    {
+        restartButton.onClick.AddListener(RestartScene);
+    }
 
     void Start()
     {
@@ -17,18 +26,16 @@ public class Spawner : MonoBehaviour
             // Get random position within screen bounds
             Vector3 spawnPosition = GetRandomScreenPosition();
 
-            // Create a random scale
-            float randomScale = Random.Range(minScale, maxScale);
-
             int randomColourIndex = Random.Range(0, spritePrefabs.Length);
 
             // Instantiate the prefab with position and adjusted scale
             GameObject newSprite = Instantiate(spritePrefabs[randomColourIndex], spawnPosition, Quaternion.identity,parent);
-            newSprite.transform.localScale = new Vector3(maxScale, maxScale, 1f); 
+            newSprite.transform.localScale = new Vector3(2f, 2f, 1f); 
         }
         
     }
 
+    //Returns a random position to spawn and converts it to worldPoint based on Camera
     Vector3 GetRandomScreenPosition()
     {
         Vector3 viewportPoint = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 0f);
@@ -37,23 +44,11 @@ public class Spawner : MonoBehaviour
         return worldPosition;
     }
 
-    bool IsPositionValid(Vector3 position)
+
+    //For restarting the scene, This will be added as listener to Button 
+    public void RestartScene()
     {
-        // Adjust collider check based on your sprite prefab's collider type (BoxCollider2D or CircleCollider2D)
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(position,2.5f); // Assuming a circle collider
-
-        // Check for overlap with any existing colliders (excluding itself)
-        foreach (Collider2D collider in colliders)
-        {
-            if (collider.gameObject != this.gameObject)
-            {
-                return false;
-            }
-        }
-
-        return true;
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex);
     }
-
-    
-
 }
