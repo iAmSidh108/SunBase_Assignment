@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Balloon : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+   
 
-    // Update is called once per frame
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (collision.gameObject.GetComponent<Blade>())
+        {
+            Debug.Log("Collided");
+            Destroy(this.gameObject);
+        }
     }
 }

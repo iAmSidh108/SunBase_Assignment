@@ -23,17 +23,17 @@ public class Spawner : MonoBehaviour
             int randomColourIndex = Random.Range(0, spritePrefabs.Length);
 
             // Instantiate the prefab with position and adjusted scale
-            GameObject newSprite = Instantiate(spritePrefabs[randomColourIndex], spawnPosition, Quaternion.identity,parent) as GameObject;
-            newSprite.transform.localScale = new Vector3(randomScale, randomScale, 1f); // Assuming 2D sprite
-
+            GameObject newSprite = Instantiate(spritePrefabs[randomColourIndex], spawnPosition, Quaternion.identity,parent);
+            newSprite.transform.localScale = new Vector3(maxScale, maxScale, 1f); 
         }
-        mainCamera.transform.localPosition = new Vector3(0, 0, -12f);
+        
     }
 
     Vector3 GetRandomScreenPosition()
     {
         Vector3 viewportPoint = new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), 0f);
         Vector3 worldPosition = mainCamera.ViewportToWorldPoint(viewportPoint);
+        worldPosition.z = 0f;
         return worldPosition;
     }
 
